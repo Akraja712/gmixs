@@ -41,10 +41,18 @@
                     <p>Products</p>
                     </a>
                 </li>
+
                 <li class="nav-item has-treeview">
                 <a href="{{ route('address.index') }}?search=&trip_status=0"  class="nav-link {{ activeSegment('address') }}">
                         <i class="nav-icon fas fa-suitcase"></i>
                         <p>Address</p>
+                    </a>
+                </li>
+
+                <li class="nav-item has-treeview">
+                    <a href="{{ route('orders.index') }}" class="nav-link {{ activeSegment('orders') }}">
+                        <i class="nav-icon fas fa-shopping-basket"></i>
+                        <p>Orders</p>
                     </a>
                 </li>
 

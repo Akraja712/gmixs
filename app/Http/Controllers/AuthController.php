@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Users; 
 use App\Models\Products; 
 use App\Models\Address; 
-use App\Models\Trips;
+use App\Models\Orders;
 use App\Models\Friends; 
 use App\Models\Points; 
 use App\Models\Plans;
@@ -214,6 +214,121 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Address added successfully.',
         ], 201);
+    }
+
+    public function place_order(Request $request)
+    {
+        $user_id = $request->input('user_id'); 
+        $product_id = $request->input('product_id');
+        $address_id = $request->input('address_id');
+        $price = $request->input('price');
+        $delivery_charges = $request->input('delivery_charges');
+        $payment_mode = $request->input('payment_mode');
+
+        if (empty($user_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'user_id is empty.',
+            ], 400);
+        }
+
+        if (empty($product_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'product_id is empty.',
+            ], 400);
+        }
+
+        if (empty($address_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'address_id is empty.',
+            ], 400);
+        }
+
+        if (empty($price)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'price is empty.',
+            ], 400);
+        }
+
+        if (empty($delivery_charges)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'delivery_charges is empty.',
+            ], 400);
+        }
+
+        if (empty($payment_mode)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'payment_mode is empty.',
+            ], 400);
+        }
+
+        // Check if user exists
+        $user = Users::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'user not found.',
+            ], 404);
+        }
+
+        // Check if product exists
+        $product = Products::find($product_id);
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'product not found.',
+            ], 404);
+        }
+
+        // Check if address exists
+        $address = Address::find($address_id);
+        if (!$address) {
+            return response()->json([
+                'success' => false,
+                'message' => 'address not found.',
+            ], 404);
+        }
+
+        // Check if the order already exists
+        $existingOrder = Orders::where('user_id', $user_id)
+            ->where('product_id', $product_id)
+            ->where('address_id', $address_id)
+            ->first();
+
+        if ($existingOrder) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order already exists.',
+            ], 400);
+        }
+
+        // Check if payment mode is valid
+        if ($payment_mode !== 'prepaid' && $payment_mode !== 'cod') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid payment mode. Payment mode should be either prepaid or cod.',
+            ], 400);
+        }
+
+        // Insert into orders table
+        $order = new Orders();
+        $order->user_id = $user_id;
+        $order->product_id = $product_id;
+        $order->address_id = $address_id;
+        $order->price = $price;
+        $order->delivery_charges = $delivery_charges;
+        $order->payment_mode = $payment_mode;
+        $order->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Order placed successfully.',
+        ], 200);
     }
 
 }

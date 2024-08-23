@@ -8,7 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PointsController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\TripsController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;    
@@ -89,6 +89,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/products/{product}', [ProductsController::class, 'update'])->name('products.update');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 
+    Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
+    Route::delete('/orders/{orders}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+    
 
 });
 // OneSignal service worker route
