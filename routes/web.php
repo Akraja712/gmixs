@@ -86,7 +86,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/products/products', [ProductsController::class, 'create'])->name('products.create');
     Route::get('/products/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
     Route::delete('/products/{products}', [ProductsController::class, 'destroy'])->name('products.destroy');
-    Route::put('/products/{products}', [ProductsController::class, 'update'])->name('products.update');
+    Route::put('/products/{product}', [ProductsController::class, 'update'])->name('products.update');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 
 

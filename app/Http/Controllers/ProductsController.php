@@ -99,12 +99,13 @@ class ProductsController extends Controller
         $product->unit = $request->unit;
         $product->measurement = $request->measurement;
         $product->price = $request->price;
-
+    
         if (!$product->save()) {
             return redirect()->back()->with('error', 'Sorry, Something went wrong while updating the product.');
         }
         return redirect()->route('products.edit', $product->id)->with('success', 'Success, product has been updated.');
     }
+    
 
     public function destroy(Products $product)
     {
