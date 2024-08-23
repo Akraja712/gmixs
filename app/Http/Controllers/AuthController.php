@@ -47,35 +47,34 @@ class AuthController extends Controller
             $response['message'] = 'mobile is empty.';
             return response()->json($response, 400);
         }
-    
+
         // Remove non-numeric characters from the phone number
         $mobile = preg_replace('/[^0-9]/', '', $mobile);
-    
+
         // Check if the length of the phone number is not equal to 10
         if (strlen($mobile) !== 10) {
             $response['success'] = false;
             $response['message'] = "mobile number should be exactly 10 digits";
             return response()->json($response, 400);
         }
-    
-    
+
+
         // Check if a customer with the given phone number exists in the database
         $user = Users::where('mobile', $mobile)->first();
-    
-        // If customer not found, return failure response
+
+        // If customer not found, register the user
         if (!$user) {
-            $response['success'] = true;
-            $response['registered'] = false;
-            $response['message'] = 'mobile not registered.';
-            return response()->json($response, 404);
+            $user = new Users();
+            $user->mobile = $mobile;
+            $user->save();
         }
 
-    return response()->json([
-        'success' => true,
-        'registered' => true,
-        'message' => 'Logged in successfully.',
-    ], 200);
-}
+        return response()->json([
+            'success' => true,
+            'registered' => true,
+            'message' => 'Logged in successfully.',
+        ], 200);
+    }
 
 
 
