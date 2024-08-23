@@ -52,11 +52,23 @@ class ProductsController extends Controller
      */
     public function store(ProductsStoreRequest $request)
     {
+
+        // Check if a file has been uploaded
+       if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName(); // Get the original file name
+            $imagePath = $request->file('image')->storeAs('products', $imageName);
+        } else {
+            // Handle the case where no file has been uploaded
+            $imagePath = null; // or provide a default image path
+        }
+
+
         $products = Products::create([
             'name' => $request->name,
             'unit' => $request->unit,
             'measurement' => $request->measurement,
             'price' => $request->price,
+            'image' => $imageName, 
         ]);
 
         if (!$products) {
@@ -99,6 +111,12 @@ class ProductsController extends Controller
         $product->unit = $request->unit;
         $product->measurement = $request->measurement;
         $product->price = $request->price;
+
+        if ($request->hasFile('image')) {
+            $newImagePath = $request->file('image')->store('products', 'public');
+            Storage::disk('public')->delete('products/' . $product->image);
+            $product->image = basename($newImagePath);
+        }
     
         if (!$product->save()) {
             return redirect()->back()->with('error', 'Sorry, Something went wrong while updating the product.');
@@ -109,6 +127,11 @@ class ProductsController extends Controller
 
     public function destroy(Products $product)
     {
+
+        if (Storage::disk('public')->exists('products/' . $product->image)) {
+            Storage::disk('public')->delete('products/' . $product->image);
+        }
+
         $product->delete();
 
         return response()->json([

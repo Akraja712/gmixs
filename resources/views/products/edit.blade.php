@@ -63,7 +63,25 @@
                     @enderror 
                 </div>
 
-            
+                <div class="form-group">
+                    <span>Current Image:</span>
+                    <img src="{{ asset('storage/app/public/products/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 100px; max-height: 100px;">
+                    <br>
+                    <label for="image">New Image</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="image" id="image">
+                        <label class="custom-file-label" for="image">Choose file</label>
+                        @if($product->image)
+                            <input type="hidden" name="existing_image" value="{{ $product->image }}">
+                        @endif
+                    </div>
+                    @error('image')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+
                 <button class="btn btn-success btn-block btn-lg" type="submit">Save Changes</button>
             </form>
         </div>
@@ -77,4 +95,15 @@
             bsCustomFileInput.init();
         });
     </script>
+      <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.getElementById('image');
+    const fileInputLabel = fileInput.nextElementSibling;
+
+    fileInput.addEventListener('change', function () {
+        const fileName = this.files[0].name;
+        fileInputLabel.textContent = fileName;
+    });
+});
+</script>
 @endsection

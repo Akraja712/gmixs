@@ -59,6 +59,19 @@
                     </span>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="image" id="image" onchange="updateProfileLabel(this)">
+                        <label class="custom-file-label" for="image" id="image-label">Choose File</label>
+                    </div>
+                    @error('image')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
               
 
                 <button class="btn btn-success btn-block btn-lg" type="submit">Submit</button>

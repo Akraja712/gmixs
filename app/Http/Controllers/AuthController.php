@@ -88,13 +88,17 @@ class AuthController extends Controller
 
         $productsDetails = [];
 
+
         foreach ($products as $product) {
+
+            $imageUrl = $product->image ? asset('storage/app/public/products/' . $product->image) : '';
             $productsDetails[] = [
                 'id' => $product->id,
                 'name' => $product->name,
                 'unit' => $product->unit,
                 'measurement' => $product->measurement,
                 'price' => (string) $product->price,
+                'image' => $imageUrl,
                 'updated_at' => Carbon::parse($product->updated_at)->format('Y-m-d H:i:s'),
                 'created_at' => Carbon::parse($product->created_at)->format('Y-m-d H:i:s'),
             ];
@@ -331,4 +335,46 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function orders_list(Request $request)
+    {
+        $user_id = $request->input('user_id');
+
+        // Retrieve the orders for the given user
+        $orders = Orders::where('user_id', $user_id)->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No orders found for the user.',
+            ], 404);
+        }
+
+        $ordersDetails = [];
+
+        foreach ($orders as $order) {
+
+            if ($order->user_id == $user_id) {
+                $user = Users::find($order->user_id);
+                $product = Products::find($order->product_id);
+                $address = Address::find($order->address_id);
+                $ordersDetails[] = [
+                    'id' => $order->id,
+                    'user_name' => $user->name, // Retrieve user name from the User model
+                    'address_name' => $address->name, // Retrieve address name from the Address model
+                    'product_name' => $product->name, // Retrieve product name from the Product model
+                    'delivery_charges' => $order->delivery_charges,
+                    'payment_mode' => $order->payment_mode,
+                    'price' => (string) $order->price,
+                    'updated_at' => Carbon::parse($order->updated_at)->format('Y-m-d H:i:s'),
+                    'created_at' => Carbon::parse($order->created_at)->format('Y-m-d H:i:s'),
+                ];
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Orders retrieved successfully.',
+            'data' => $ordersDetails,
+        ], 200);
+    }
 }
