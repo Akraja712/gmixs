@@ -15,5 +15,11 @@ class Address extends Model
         'city',
         'pincode',
         'state',
+        'user_id',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class, 'user_id');
+    }
 }

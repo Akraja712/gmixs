@@ -14,6 +14,19 @@
             <form action="{{ route('address.update', $address) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <div class="form-group">
+                    <label for="user_id">User Name</label>
+                    <input type="text" name="user_id" class="form-control @error('user_id') is-invalid @enderror"
+                           id="user_id"
+                           placeholder="User name" value="{{ $users->firstWhere('id', $address->user_id)->name ?? 'No user selected' }}" readonly>
+                    @error('user_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror 
+                </div>
+
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"

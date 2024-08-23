@@ -33,6 +33,7 @@
                     <tr>
                     <th>Actions</th>
                     <th>ID <i class="fas fa-sort"></i></th>
+                    <th>User Name</th>
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Alternate Mobile</th>
@@ -51,6 +52,7 @@
                             <button class="btn btn-danger btn-delete" data-url="{{route('address.destroy', $addres)}}"><i class="fas fa-trash"></i></button>
                         </td>
                         <td>{{$addres->id}}</td>
+                        <td>{{ optional($addres->users)->name }}</td>
                         <td>{{$addres->name}}</td>
                         <td>{{$addres->mobile}}</td>
                         <td>{{$addres->alternate_mobile}}</td>

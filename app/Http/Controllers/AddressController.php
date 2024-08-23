@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddressStoreRequest;
 use App\Models\Address;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,15 +28,19 @@ class AddressController extends Controller
                   ->orWhere('street_name', 'like', "%$search%")
                   ->orWhere('city', 'like', "%$search%")
                   ->orWhere('pincode', 'like', "%$search%")
-                  ->orWhere('state', 'like', "%$search%");
+                  ->orWhere('state', 'like', "%$search%")
+                  ->orWhereHas('users', function ($q) use ($search) {
+                    $q->where('name', 'like', "%$search%");
+                });
         }
 
         if ($request->wantsJson()) {
             return response($query->get());
         }
-
         $address = $query->latest()->paginate(10);
-        return view('address.index')->with('address', $address);
+        $users = Users::all();
+     
+         return view('address.index', compact('address', 'users'));
     }
 
     /**
@@ -91,7 +96,8 @@ class AddressController extends Controller
      */
     public function edit(Address $address)
     {
-        return view('address.edit', compact('address'));
+        $users = Users::all(); // Fetch all shops
+        return view('address.edit', compact('address', 'users'));
     }
 
     /**
