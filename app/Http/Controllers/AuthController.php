@@ -75,6 +75,62 @@ class AuthController extends Controller
             'message' => 'Logged in successfully.',
         ], 200);
     }
+
+    public function otp(Request $request)
+    {
+        // Retrieve phone number from the request
+        $mobile = $request->input('mobile');
+    
+        if (empty($mobile)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mobile number is empty.',
+            ], 400);
+        }
+    
+        // Remove non-numeric characters from the phone number
+        $mobile = preg_replace('/[^0-9]/', '', $mobile);
+    
+        // Check if the length of the phone number is not exactly 10
+        if (strlen($mobile) !== 10) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Mobile number should be exactly 10 digits.',
+            ], 400);
+        }
+    
+        // Generate a random 6-digit OTP
+        $randomNumber = mt_rand(100000, 999999);
+        $datetime = now();
+    
+        // Check if the mobile number already exists in the otp table
+        $otpRecord = DB::table('otp')->where('mobile', $mobile)->first();
+    
+        if ($otpRecord) {
+            // If exists, update the OTP and datetime
+            DB::table('otp')->where('mobile', $mobile)->update([
+                'otp' => $randomNumber,
+                'datetime' => $datetime,
+            ]);
+        } else {
+            // If not exists, insert a new record
+            DB::table('otp')->insert([
+                'mobile' => $mobile,
+                'otp' => $randomNumber,
+                'datetime' => $datetime,
+            ]);
+        }
+    
+        // Fetch the updated or newly inserted record
+        $otpRecord = DB::table('otp')->where('mobile', $mobile)->first();
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP received successfully.',
+            'data' => $otpRecord,
+        ], 200);
+    }
+    
     public function product_list(Request $request)
     {
         $products = Products::orderBy('price', 'desc')->get();
