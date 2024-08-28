@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Admin;
-use App\Models\Shops;
+use App\Models\Admin; // Make sure to include your Admin model
 
 class LoginController extends Controller
 {
@@ -19,19 +18,27 @@ class LoginController extends Controller
     {
         $credentials = $request->only('first_name', 'password');
 
-        // Attempt login with Admin model
+        // Attempt login
         if (Auth::guard('web')->attempt($credentials)) {
-            // Authentication passed...
-            return redirect()->intended('/admin'); // Redirect to the admin dashboard after login
+            $user = Auth::guard('web')->user();
+
+            // Check user role and redirect accordingly
+            if ($user->role === 'admin') {
+                return redirect()->intended('/'); // Redirect to admin dashboard
+            } elseif ($user->role === 'staff') {
+                return redirect()->intended('/'); // Redirect to staff dashboard
+            } else {
+                Auth::logout();
+                return redirect('/login')->withErrors(['first_name' => 'Unauthorized role.']);
+            }
         }
 
-    
-        return back()->withErrors(['first_name' => 'Invalid credentials']); // Adjust the error message as needed
+        return back()->withErrors(['first_name' => 'Invalid credentials']);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
         return redirect('/login');
     }
 }

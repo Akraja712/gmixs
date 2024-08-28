@@ -21,52 +21,71 @@
         </div>
 
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item has-treeview">
-                    <a href="{{route('home')}}" class="nav-link {{ activeSegment('') }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="{{ route('users.index') }}" class="nav-link {{ activeSegment('users') }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="{{ route('products.index') }}" class="nav-link {{ activeSegment('products') }}">
-                    <i class="nav-icon fas fa-shopping-cart"></i>
+        <!-- Sidebar Menu -->
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        @if(auth()->user()->role == 'admin')
+        <li class="nav-item has-treeview">
+            <a href="{{ route('home') }}" class="nav-link {{ activeSegment('') }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+            <li class="nav-item has-treeview">
+                <a href="{{ route('users.index') }}" class="nav-link {{ activeSegment('users') }}">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item has-treeview">
+                <a href="{{ route('address.index') }}" class="nav-link {{ activeSegment('address') }}">
+                <i class="nav-icon fas fa-map-marker-alt"></i> <!-- Icon for Address -->
+                    <p>Address</p>
+                </a>
+            </li>
+            <li class="nav-item has-treeview">
+                <a href="{{ route('products.index') }}" class="nav-link {{ activeSegment('products') }}">
+                <i class="nav-icon fas fa-map-marker-alt"></i> <!-- Icon for Address -->
                     <p>Products</p>
-                    </a>
-                </li>
+                </a>
+            </li>
+            <li class="nav-item has-treeview">
+                <a href="{{ route('orders.index') }}" class="nav-link {{ activeSegment('orders') }}">
+                <i class="nav-icon fas fa-shopping-basket"></i> <!-- Icon for Orders -->
+                    <p>Orders</p>
+                </a>
+            </li>
+            <!-- Add other admin-specific menu items here -->
+        @endif
 
-                <li class="nav-item has-treeview">
-                <a href="{{ route('address.index') }}?search=&trip_status=0"  class="nav-link {{ activeSegment('address') }}">
-                        <i class="nav-icon fas fa-suitcase"></i>
-                        <p>Address</p>
-                    </a>
-                </li>
+        @if(auth()->user()->role == 'staff')
+        <li class="nav-item has-treeview">
+            <a href="{{ route('home') }}" class="nav-link {{ activeSegment('') }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+            <li class="nav-item has-treeview">
+                <a href="{{ route('staffs.index') }}" class="nav-link {{ activeSegment('staffs') }}">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Staffs</p>
+                </a>
+            </li>
+            <!-- Add other staff-specific menu items here -->
+        @endif
 
-                <li class="nav-item has-treeview">
-                    <a href="{{ route('orders.index') }}" class="nav-link {{ activeSegment('orders') }}">
-                        <i class="nav-icon fas fa-shopping-basket"></i>
-                        <p>Orders</p>
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
+                <i class="nav-icon fas fa-power-off"></i>
+                <p>Logout</p>
+                <form action="{{route('logout')}}" method="POST" id="logout-form">
+                    @csrf
+                </form>
+            </a>
+        </li>
+    </ul>
+</nav>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
-                        <i class="nav-icon fas fa-power-off"></i>
-                        <p>Logout</p>
-                        <form action="{{route('logout')}}" method="POST" id="logout-form">
-                            @csrf
-                        </form>
-                    </a>
-                </li>
-            </ul>
-        </nav>
         <!-- /.sidebar-menu -->
     </div><!-- Log on to codeastro.com for more projects -->
     <!-- /.sidebar -->

@@ -130,7 +130,34 @@ class AuthController extends Controller
             'data' => $otpRecord,
         ], 200);
     }
-    
+    public function userdetails(Request $request)
+    {
+        $user_id = $request->input('user_id');
+
+        // Retrieve the user details for the given user_id
+        $user = Users::find($user_id);
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found.',
+            ], 404);
+        }
+
+        $userDetails = [[
+            'id' => $user->id,
+            'name' => $user->name,
+            'mobile' => $user->mobile,
+            'updated_at' => Carbon::parse($user->updated_at)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::parse($user->created_at)->format('Y-m-d H:i:s'),
+        ]];
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User details retrieved successfully.',
+            'data' => $userDetails,
+        ], 200);
+    }
     public function product_list(Request $request)
     {
         $products = Products::orderBy('price', 'desc')->get();

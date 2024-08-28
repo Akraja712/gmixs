@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::post('login', [AuthController::class, 'login']);
+Route::post('userdetails', [AuthController::class, 'userdetails']);
 Route::post('product_list', [AuthController::class, 'product_list']);
 Route::post('add_address', [AuthController::class, 'add_address']);
 Route::post('place_order', [AuthController::class, 'place_order']);
