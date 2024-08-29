@@ -37,6 +37,7 @@
                     <th>Unit</th>
                     <th>Measurement</th>
                     <th>Price</th>
+                    <th>Delivery Charges</th>
                     <th>Image</th>
                     </tr>
                 </thead>
@@ -52,6 +53,7 @@
                         <td>{{$product->unit}}</td>
                         <td>{{$product->measurement}}</td>
                         <td>{{$product->price}}</td>
+                        <td>{{$product->delivery_charges}}</td>
                         <td>
                             <a href="{{ asset('storage/app/public/products/' . $product->image) }}" data-lightbox="image-{{ $product->id }}">
                                 <img class="customer-img img-thumbnail img-fluid" src="{{ asset('storage/app/public/products/' . $product->image) }}" alt="Image" style="max-width: 100px; max-height: 100px;">

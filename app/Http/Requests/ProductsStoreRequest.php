@@ -28,6 +28,7 @@ class ProductsStoreRequest extends FormRequest
             'unit' => 'required|string|max:255',  // Ensure 'unit' is required and not null
             'measurement' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
+            'delivery_charges' => 'required|numeric|min:0',
         ];
     }
 }

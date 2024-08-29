@@ -64,6 +64,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="delivery_charges">Delivery Charges</label>
+                    <input type="number" name="delivery_charges" class="form-control @error('delivery_charges') is-invalid @enderror"
+                           id="delivery_charges"
+                           placeholder="Delivery Charges" value="{{ old('delivery_charges', $product->delivery_charges) }}">
+                    @error('delivery_charges')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror 
+                </div>
+
+                <div class="form-group">
                     <span>Current Image:</span>
                     <img src="{{ asset('storage/app/public/products/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 100px; max-height: 100px;">
                     <br>

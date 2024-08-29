@@ -188,6 +188,7 @@ class AuthController extends Controller
                 'unit' => $product->unit,
                 'measurement' => $product->measurement,
                 'price' => (string) $product->price,
+                'delivery_charges' => (string) $product->delivery_charges,
                 'image' => $imageUrl,
                 'updated_at' => Carbon::parse($product->updated_at)->format('Y-m-d H:i:s'),
                 'created_at' => Carbon::parse($product->created_at)->format('Y-m-d H:i:s'),
@@ -226,17 +227,17 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if (empty($alternate_mobile)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Alternate Mobile is empty.',
-            ], 400);
-        }
-
         if (empty($mobile)) {
             return response()->json([
                 'success' => false,
                 'message' => 'mobile is empty.',
+            ], 400);
+        }
+
+        if (empty($alternate_mobile)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alternate Mobile is empty.',
             ], 400);
         }
 
@@ -304,9 +305,25 @@ class AuthController extends Controller
             ], 500);
         }
 
+        $addressDetails = [[
+            'id' => $address->id,
+            'user_id' => $address->user_id,
+            'name' => $address->name,
+            'mobile' => $address->mobile,
+            'alternate_mobile' => $address->alternate_mobile,
+            'door_no' => $address->door_no,
+            'street_name' => $address->street_name,
+            'city' => $address->city,
+            'pincode' => $address->pincode,
+            'state' => $address->state,
+            'updated_at' => Carbon::parse($address->updated_at)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::parse($address->created_at)->format('Y-m-d H:i:s'),
+        ]];
+
         return response()->json([
             'success' => true,
             'message' => 'Address added successfully.',
+            'data' => $addressDetails,
         ], 201);
     }
 
