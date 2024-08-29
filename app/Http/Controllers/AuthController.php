@@ -73,8 +73,15 @@ class AuthController extends Controller
             'success' => true,
             'registered' => true,
             'message' => 'Logged in successfully.',
+            'data' => [
+            'id' => $user->id,
+            'name' => $user->name ?? '',
+            'mobile' => $user->mobile,
+            'updated_at' => Carbon::parse($user->updated_at)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::parse($user->created_at)->format('Y-m-d H:i:s'),
+            ],
         ], 200);
-    }
+        }
 
     public function otp(Request $request)
     {
@@ -301,6 +308,50 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Address added successfully.',
         ], 201);
+    }
+
+     public function address_list(Request $request)
+    {
+        $address_id = $request->input('address_id');
+
+        if (empty($address_id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'address_id is empty.',
+            ], 400);
+        }
+
+
+        // Retrieve the user details for the given user_id
+        $address = address::find($address_id);
+
+        if (!$address) {
+            return response()->json([
+                'success' => false,
+                'message' => 'address not found.',
+            ], 404);
+        }
+
+        $addressDetails = [[
+            'id' => $address->id,
+            'user_id' => $address->user_id,
+            'name' => $address->name,
+            'mobile' => $address->mobile,
+            'alternate_mobile' => $address->alternate_mobile,
+            'door_no' => $address->door_no,
+            'street_name' => $address->street_name,
+            'city' => $address->city,
+            'pincode' => $address->pincode,
+            'state' => $address->state,
+            'updated_at' => Carbon::parse($address->updated_at)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::parse($address->created_at)->format('Y-m-d H:i:s'),
+        ]];
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Address details retrieved successfully.',
+            'data' => $addressDetails,
+        ], 200);
     }
 
     public function place_order(Request $request)
