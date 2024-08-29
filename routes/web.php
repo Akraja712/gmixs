@@ -36,19 +36,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    // Assuming the user is logged in
-    if (Auth::check()) {
-        $user = Auth::user();
-        if ($user->role === 'admin') {
-            return redirect('/admin');
-        } elseif ($user->role === 'staff') {
-            return redirect('/staff');
-        }
-    }
-    // Redirect to login if the user is not authenticated
-    return redirect('/login');
+    return redirect('/admin');
 });
-
 
 Auth::routes();
 
@@ -74,8 +63,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('customers', CustomerController::class);
 
 
-     // admin routes
-     Route::middleware('checkRole:admin')->group(function () {
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
     Route::get('/users/{users}/edit', [UsersController::class, 'edit'])->name('users.edit');
@@ -105,23 +92,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('/orders/{orders}', [OrdersController::class, 'destroy'])->name('orders.destroy');
     });
 
-});
-Route::prefix('staff')->middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
     Route::resource('customers', CustomerController::class);
 
-   // Staff routes
-   Route::middleware('checkRole:staff')->group(function () {
-    Route::get('/staffs', [StaffsController::class, 'index'])->name('staffs.index');
-    Route::get('/staffs/staffs', [StaffsController::class, 'create'])->name('staffs.create');
-    Route::get('/staffs/{staff}/edit', [StaffsController::class, 'edit'])->name('staffs.edit');
-    Route::delete('/staffs/{staffs}', [StaffsController::class, 'destroy'])->name('staffs.destroy');
-    Route::put('/staffs/{staff}', [StaffsController::class, 'update'])->name('staffs.update');
-    Route::post('/staffs', [StaffsController::class, 'store'])->name('staffs.store');
-  });
-});
+
 // OneSignal service worker route
 Route::get('/OneSignalSDKWorker.js', function () {
     return response()->file(public_path('OneSignalSDKWorker.js'));

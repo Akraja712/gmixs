@@ -22,10 +22,7 @@ class LoginController extends Controller
         if (Auth::guard('web')->attempt($credentials)) {
             $user = Auth::guard('web')->user();
 
-            // Check user role and redirect accordingly
             if ($user->role === 'admin') {
-                return redirect()->intended('/'); // Redirect to admin dashboard
-            } elseif ($user->role === 'staff') {
                 return redirect()->intended('/'); // Redirect to staff dashboard
             } else {
                 Auth::logout();
