@@ -499,6 +499,8 @@ class AuthController extends Controller
                     'delivery_charges' => $order->delivery_charges,
                     'payment_mode' => $order->payment_mode,
                     'price' => (string) $order->price,
+                    'place_status' => (string) $order->place_status,
+                    'delivery_date' => Carbon::parse($order->delivery_date)->format('Y-m-d'),
                     'updated_at' => Carbon::parse($order->updated_at)->format('Y-m-d H:i:s'),
                     'created_at' => Carbon::parse($order->created_at)->format('Y-m-d H:i:s'),
                 ];
