@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
-@section('title', 'Update staffs')
-@section('content-header', 'Update staffs')
+@section('title', 'Update Staffs')
+@section('content-header', 'Update Staffs')
 @section('content-actions')
-    <a href="{{ route('staffs.index') }}" class="btn btn-success"><i class="fas fa-back"></i> Back To staffs</a>
+    <a href="{{ route('staffs.index') }}" class="btn btn-success"><i class="fas fa-back"></i> Back To Staffs</a>
 @endsection
 
 @section('content')

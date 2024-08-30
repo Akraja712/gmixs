@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
-@section('title', 'staff Management')
-@section('content-header', 'staff Management')
+@section('title', 'Staff Management')
+@section('content-header', 'Staff Management')
 @section('content-actions')
-    <a href="{{ route('staffs.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add New staffs</a>
+    <a href="{{ route('staffs.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add New Staffs</a>
 @endsection
 
 @section('css')
