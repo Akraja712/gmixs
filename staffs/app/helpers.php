@@ -12,6 +12,7 @@ class Helpers
         $file->storeAs($directory, $filename, 'public');
         return $filename;
     }
+    
 
     public static function update($directory, $currentFilename, $extension, $newFile)
     {

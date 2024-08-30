@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Admin; // Make sure to include your Admin model
+use App\Models\Staffs; // Ensure you include your Staff model
+
 
 class LoginController extends Controller
 {
@@ -16,26 +16,30 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('first_name', 'password');
-
-        // Attempt login
-        if (Auth::guard('web')->attempt($credentials)) {
-            $user = Auth::guard('web')->user();
-
-           if ($user->role === 'staff') {
-                return redirect()->intended('/'); // Redirect to staff dashboard
-            } else {
-                Auth::logout();
-                return redirect('/login')->withErrors(['first_name' => 'Unauthorized role.']);
-            }
+        // Validate the request
+        $request->validate([
+            'mobile' => 'required|numeric', // Ensure 'mobile' is a number
+            'password' => 'required|string', // Ensure 'password' is a plain text string
+        ]);
+    
+        // Extract credentials from the request
+        $credentials = $request->only('mobile', 'password');
+        
+    
+        // Attempt to authenticate using the staff guard
+        if (Auth::guard('staffs')->attempt($credentials)) {
+            // Redirect to intended route or default route
+            return redirect()->intended('/');
         }
-
-        return back()->withErrors(['first_name' => 'Invalid credentials']);
+    
+        // If authentication fails, redirect back with an error
+        return back()->withErrors(['mobile' => 'Invalid credentials']);
     }
+    
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        Auth::guard('staffs')->logout();
         return redirect('/login');
     }
 }

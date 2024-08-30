@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'admins', // Change 'users' to 'admins'
+        'guard' => 'staffs',
+        'passwords' => 'staffs', // Change 'users' to 'admins'
     ],
 
     /*
@@ -36,9 +36,9 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'staffs' => [
             'driver' => 'session',
-            'provider' => 'admins', // Change 'users' to 'admins'
+            'provider' => 'staffs', // Change 'users' to 'admins'
         ],
     
         'shops' => [
@@ -65,9 +65,9 @@ return [
     */
 
     'providers' => [
-        'admins' => [
+        'staffs' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\Staffs::class,
         ],
     
     ],
@@ -88,8 +88,8 @@ return [
     */
 
    'passwords' => [
-    'admins' => [ // Change 'users' to 'admins'
-        'provider' => 'admins', // Change 'users' to 'admins'
+    'staffs' => [ // Change 'users' to 'admins'
+        'provider' => 'staffs', // Change 'users' to 'admins'
         'table' => 'password_resets',
         'expire' => 60,
         'throttle' => 60,

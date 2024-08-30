@@ -152,7 +152,7 @@ class EloquentUserProvider implements UserProvider
             return false;
         }
 
-        return $this->hasher->check($plain, $user->getAuthPassword());
+        return $plain === $user->getAuthPassword();
     }
 
     /**

@@ -7,7 +7,7 @@
         font-family: 'Arvo', sans-serif;
     }
     h5 {
-        font-family: 'Arvo', sans-serif; /* Apply Kanit font to h5 */
+        font-family: 'Arvo', sans-serif; /* Apply Arvo font to h5 */
     }
     .invalid-feedback {
         display: block;
@@ -20,20 +20,20 @@
     <center>
         <img src="{{ asset('public/images/poslg.png') }}" alt="Image description" class="rounded-circle" style="max-width: 100px; max-height: 100px;">
     </center>
-    <h5 class="login-box-msg">Gmix - Login Page</h5>
+    <h5 class="login-box-msg">Gmix - Staff Login</h5>
     <br>
     @csrf
     <div class="form-group">
         <div class="input-group">
-            <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror"
-                placeholder="User Name"  required autocomplete="first_name">
+            <input type="text" name="mobile" class="form-control @error('mobile') is-invalid @enderror"
+                placeholder="Mobile Number" required autocomplete="mobile">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user-alt"></span>
+                    <span class="fas fa-mobile-alt"></span>
                 </div>
             </div>
         </div>
-        @error('first_name')
+        @error('mobile')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
         </span>
