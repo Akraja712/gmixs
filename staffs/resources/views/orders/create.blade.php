@@ -40,12 +40,12 @@
 </div>
 
 
-                 <div class="form-group">
+                <div class="form-group">
                     <label for="product_id">Product ID</label>
                     <select name="product_id" class="form-control @error('product_id') is-invalid @enderror" id="product_id">
                         <option value=''>--select--</option>
-                        @foreach($products as $id => $product)
-                            <option value="{{ $id }}" {{ old('product_id') == $id ? 'selected' : '' }}>
+                        @foreach($products as $product)
+                            <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
                                 {{ $product->name }}
                             </option>
                         @endforeach

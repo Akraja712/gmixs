@@ -14,4 +14,9 @@ class Products extends Model
         'delivery_charges',
         'image',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class, 'user_id');
+    }
 }

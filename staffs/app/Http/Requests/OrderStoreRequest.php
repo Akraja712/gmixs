@@ -24,12 +24,12 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_mode' => 'required|string',
-            'delivery_charges' => 'nullable|integer',
-            'price' => 'nullable|integer',
             'user_id' => 'required|exists:users,id',
             'address_id' => 'required|exists:addresses,id',
             'product_id' => 'required|exists:products,id',
+            'price' => 'required|numeric',
+            'delivery_charges' => 'required|numeric',
+            'payment_mode' => 'required|in:prepaid,cod',
         ];
     }
 }
