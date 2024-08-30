@@ -57,8 +57,7 @@
 </aside>
 <?php
 function activeSegment($segmentName) {
-    $currentUri = $_SERVER['REQUEST_URI'];
-    if (strpos($currentUri, $segmentName) !== false) {
+    if (request()->is($segmentName . '*')) {
         return 'active';
     }
     return '';
