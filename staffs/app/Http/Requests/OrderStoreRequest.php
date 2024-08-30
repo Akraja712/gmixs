@@ -24,8 +24,12 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => 'nullable|integer|exists:customers,id',
-            'amount' => 'required|numeric|min:0',
+            'payment_mode' => 'required|string',
+            'delivery_charges' => 'nullable|integer',
+            'price' => 'nullable|integer',
+            'user_id' => 'required|exists:users,id',
+            'address_id' => 'required|exists:addresses,id',
+            'product_id' => 'required|exists:products,id',
         ];
     }
 }

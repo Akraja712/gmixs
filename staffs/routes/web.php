@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PointsController;
-use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AddressesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StaffsController;
@@ -65,6 +65,13 @@ Route::namespace('Auth')->group(function () {
     Route::delete('/staffs/{staffs}', [StaffsController::class, 'destroy'])->name('staffs.destroy');
     Route::put('/staffs/{staff}', [StaffsController::class, 'update'])->name('staffs.update');
     Route::post('/staffs', [StaffsController::class, 'store'])->name('staffs.store');
+
+    Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
+    Route::get('/orders/orders', [OrdersController::class, 'create'])->name('orders.create');
+    Route::post('/orders', [OrdersController::class, 'store'])->name('orders.store');
+    Route::get('/user-addresses/{userId}', [OrdersController::class, 'getUserAddresses']);
+
+
 // OneSignal service worker route
 Route::get('/OneSignalSDKWorker.js', function () {
     return response()->file(public_path('OneSignalSDKWorker.js'));

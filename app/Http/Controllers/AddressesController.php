@@ -1,14 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddressStoreRequest;
-use App\Models\Address;
+use App\Http\Requests\AddressesStoreRequest;
+use App\Models\Addresses;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 
-class AddressController extends Controller
+class AddressesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class AddressController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Address::query();
+        $query = Addresses::query();
 
         if ($request->has('search')) {
             $search = $request->input('search');
@@ -37,10 +37,10 @@ class AddressController extends Controller
         if ($request->wantsJson()) {
             return response($query->get());
         }
-        $address = $query->latest()->paginate(10);
+        $addresses = $query->latest()->paginate(10);
         $users = Users::all();
      
-         return view('address.index', compact('address', 'users'));
+         return view('addresses.index', compact('addresses', 'users'));
     }
 
     /**
@@ -50,7 +50,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        return view('address.create');
+        return view('addresses.create');
     }
 
     /**
@@ -59,9 +59,9 @@ class AddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddressStoreRequest $request)
+    public function store(AddressesStoreRequest $request)
     {
-        $address = Address::create([
+        $addresses = Addresses::create([
             'name' => $request->name,
             'mobile' => $request->mobile,
             'alternate_mobile' => $request->alternate_mobile,
@@ -72,61 +72,61 @@ class AddressController extends Controller
             'state' => $request->state,
         ]);
 
-        if (!$address) {
-            return redirect()->back()->with('error', 'Sorry, Something went wrong while creating address.');
+        if (!$addresses) {
+            return redirect()->back()->with('error', 'Sorry, Something went wrong while creating addresses.');
         }
-        return redirect()->route('address.index')->with('success', 'Success, New address has been added successfully!');
+        return redirect()->route('addresses.index')->with('success', 'Success, New addresses has been added successfully!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Address  $address
+     * @param  \App\Models\addresses  $addresses
      * @return \Illuminate\Http\Response
      */
-    public function show(Address $address)
+    public function show(Addresses $addresses)
     {
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Address  $address
+     * @param  \App\Models\Address  $addresses
      * @return \Illuminate\Http\Response
      */
-    public function edit(Address $address)
+    public function edit(Addresses $addresses)
     {
         $users = Users::all(); // Fetch all shops
-        return view('address.edit', compact('address', 'users'));
+        return view('addresses.edit', compact('addresses', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Address  $address
+     * @param  \App\Models\addresses  $addresses
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Address $address)
+    public function update(Request $request, Addresses $addresses)
     {
-        $address->name = $request->name;
-        $address->mobile = $request->mobile;
-        $address->alternate_mobile = $request->alternate_mobile;
-        $address->door_no = $request->door_no;
-        $address->street_name = $request->street_name;
-        $address->city = $request->city;
-        $address->pincode = $request->pincode;
-        $address->state = $request->state;
+        $addresses->name = $request->name;
+        $addresses->mobile = $request->mobile;
+        $addresses->alternate_mobile = $request->alternate_mobile;
+        $addresses->door_no = $request->door_no;
+        $addresses->street_name = $request->street_name;
+        $addresses->city = $request->city;
+        $addresses->pincode = $request->pincode;
+        $addresses->state = $request->state;
 
-        if (!$address->save()) {
-            return redirect()->back()->with('error', 'Sorry, Something went wrong while updating the address.');
+        if (!$addresses->save()) {
+            return redirect()->back()->with('error', 'Sorry, Something went wrong while updating the addresses.');
         }
-        return redirect()->route('address.edit', $address->id)->with('success', 'Success, address has been updated.');
+        return redirect()->route('addresses.edit', $addresses->id)->with('success', 'Success, addresses has been updated.');
     }
 
-    public function destroy(Address $address)
+    public function destroy(Addresses $addresses)
     {
-        $address->delete();
+        $addresses->delete();
 
         return response()->json([
             'success' => true

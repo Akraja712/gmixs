@@ -3,6 +3,7 @@
 @section('title', 'Orders Management')
 @section('content-header', 'Orders Management')
 @section('content-actions')
+    <a href="{{ route('orders.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add New Orders</a>
 @endsection
 
 @section('css')
@@ -44,7 +45,7 @@
                     <tr>
                         <td>{{ $order->id }}</td>
                         <td>{{ optional($order->user)->name }}</td>
-                        <td>{{ optional($order->address)->name }}</td>
+                        <td>{{ optional($order->addresses)->name }}</td>
                         <td>{{ optional($order->product)->name }}</td>
                         <td>{{ $order->price }}</td>
                         <td>{{ $order->delivery_charges }}</td>

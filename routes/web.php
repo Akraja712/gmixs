@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PointsController;
-use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AddressesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StaffsController;
@@ -72,12 +72,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
       //User
-      Route::get('/address', [AddressController::class, 'index'])->name('address.index');
-      Route::get('/address/create', [AddressController::class, 'create'])->name('address.create');
-      Route::get('/address/{address}/edit', [AddressController::class, 'edit'])->name('address.edit');
-      Route::delete('/address/{address}', [AddressController::class, 'destroy'])->name('address.destroy');
-      Route::put('/address/{address}', [AddressController::class, 'update'])->name('address.update');
-      Route::post('/address', [AddressController::class, 'store'])->name('address.store');
+      Route::get('/addresses', [AddressesController::class, 'index'])->name('addresses.index');
+      Route::get('/addresses/create', [AddressesController::class, 'create'])->name('addresses.create');
+      Route::get('/addresses/{addresses}/edit', [AddressesController::class, 'edit'])->name('addresses.edit');
+      Route::delete('/addresses/{addresses}', [AddressesController::class, 'destroy'])->name('addresses.destroy');
+      Route::put('/addresses/{addresses}', [AddressesController::class, 'update'])->name('addresses.update');
+      Route::post('/addresses', [AddressesController::class, 'store'])->name('addresses.store');
 
 
         //User

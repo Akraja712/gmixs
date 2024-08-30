@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
-@section('title', 'Address Management')
-@section('content-header', 'Address Management')
+@section('title', 'Addresses Management')
+@section('content-header', 'Addresses Management')
 @section('content-actions')
-    <a href="{{ route('address.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add New Address</a>
+    <a href="{{ route('addresses.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add New Addresses</a>
 @endsection
 
 @section('css')
@@ -17,7 +17,7 @@
         <div class="row mb-4">
             <div class="col-md-4 text-right">
                 <!-- Search Form -->
-                <form id="search-form" action="{{ route('address.index') }}" method="GET">
+                <form id="search-form" action="{{ route('addresses.index') }}" method="GET">
                     <div class="input-group">
                         <input type="text" id="search-input" name="search" class="form-control" placeholder="Search by..." autocomplete="off" value="{{ request()->input('search') }}">
                         <div class="input-group-append">
@@ -45,11 +45,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($address as $addres)
+                    @foreach ($addresses as $addres)
                     <tr>
                     <td>
-                            <a href="{{ route('address.edit', $addres) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-danger btn-delete" data-url="{{route('address.destroy', $addres)}}"><i class="fas fa-trash"></i></button>
+                            <a href="{{ route('addresses.edit', $addres) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-danger btn-delete" data-url="{{route('addresses.destroy', $addres)}}"><i class="fas fa-trash"></i></button>
                         </td>
                         <td>{{$addres->id}}</td>
                         <td>{{ optional($addres->users)->name }}</td>
@@ -67,7 +67,7 @@
             </table>
         </div>
        
-        {{ $address->appends(request()->query())->links() }}
+        {{ $addresses->appends(request()->query())->links() }}
 
     </div>
 </div>
@@ -99,12 +99,12 @@
     $('#search-input').on('input', function () {
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(function () {
-            filterAddress();
+            filteraddresses();
         }, 300); // Adjust delay as needed
     });
 
 
-    function filterAddress() {
+    function filteraddresses() {
         let search = $('#search-input').val();
 
         if (search.length >= 4) { // Adjust this number as needed
@@ -126,7 +126,7 @@
 
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
-                text: "Do you really want to delete this Address?",
+                text: "Do you really want to delete this addresses?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, delete it!',

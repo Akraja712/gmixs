@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Create Address')
-@section('content-header', 'Create Address')
+@section('title', 'Create Addresses')
+@section('content-header', 'Create Addresses')
 @section('content-actions')
-    <a href="{{route('address.index')}}" class="btn btn-success"><i class="fas fa-back"></i>Back To Address</a>
+    <a href="{{route('addresses.index')}}" class="btn btn-success"><i class="fas fa-back"></i>Back To Addresses</a>
 @endsection
 @section('content')
 
     <div class="card">
         <div class="card-body">
 
-            <form action="{{ route('address.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('addresses.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">

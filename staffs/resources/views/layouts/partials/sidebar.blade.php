@@ -31,7 +31,13 @@
             </a>
         </li>
             <!-- Add other admin-specific menu items here -->
-    
+            <li class="nav-item has-treeview">
+                <a href="{{ route('orders.index') }}" class="nav-link {{ activeSegment('orders') }}">
+                <i class="nav-icon fas fa-shopping-basket"></i> <!-- Icon for Orders -->
+                    <p>Orders</p>
+                </a>
+            </li>
+            
             <li class="nav-item has-treeview">
                 <a href="{{ route('staffs.index') }}" class="nav-link {{ activeSegment('staffs') }}">
                     <i class="nav-icon fas fa-users"></i>

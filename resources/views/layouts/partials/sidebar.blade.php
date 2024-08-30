@@ -13,13 +13,12 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ auth()->user()->getAvatar() }}" class="img-circle elevation-2" alt="User Image">
+                <img src="https://www.gravatar.com/avatar/" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-            <a href="#" class="d-block">{{ explode(' ', auth()->user()->getFullname())[0] }}</a>
-            </div>
+        <a href="#" class="d-block"><?php echo e(explode(' ', auth()->user()->name)[0]); ?></a>
+    </div>
         </div>
-
         <!-- Sidebar Menu -->
         <!-- Sidebar Menu -->
 <nav class="mt-2">
@@ -37,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item has-treeview">
-                <a href="{{ route('address.index') }}" class="nav-link {{ activeSegment('address') }}">
+                <a href="{{ route('addresses.index') }}" class="nav-link {{ activeSegment('addresses') }}">
                 <i class="nav-icon fas fa-map-marker-alt"></i> <!-- Icon for Address -->
                     <p>Address</p>
                 </a>
@@ -48,12 +47,7 @@
                     <p>Products</p>
                 </a>
             </li>
-            <li class="nav-item has-treeview">
-                <a href="{{ route('orders.index') }}" class="nav-link {{ activeSegment('orders') }}">
-                <i class="nav-icon fas fa-shopping-basket"></i> <!-- Icon for Orders -->
-                    <p>Orders</p>
-                </a>
-            </li>
+          
             <!-- Add other admin-specific menu items here -->
 
         <li class="nav-item">
@@ -74,8 +68,7 @@
 </aside>
 <?php
 function activeSegment($segmentName) {
-    $currentUri = $_SERVER['REQUEST_URI'];
-    if (strpos($currentUri, $segmentName) !== false) {
+    if (request()->is($segmentName . '*')) {
         return 'active';
     }
     return '';
