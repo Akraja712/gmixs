@@ -39,22 +39,18 @@ Route::get('/', function () {
     return redirect('/');
 });
 
-Auth::routes();
+
 
 
 
 Route::namespace('Auth')->group(function () {
-    Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/', [LoginController::class, 'login']);
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/register', 'RegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'RegisterController@register');
 
-    Route::get('/password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('/password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('/password/reset', 'ResetPasswordController@reset');
 });
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
